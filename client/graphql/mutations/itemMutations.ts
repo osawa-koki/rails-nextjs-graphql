@@ -13,3 +13,14 @@ export const CREATE_ITEM = gql`
     }
   }
 `;
+
+export const DELETE_ITEM = gql`
+  mutation DeleteItem($id: ID!) {
+    deleteItem(input: { id: $id }) {
+      item {
+        id
+      }
+      errors
+    }
+  }
+`;
