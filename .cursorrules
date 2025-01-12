@@ -37,34 +37,13 @@ server:
 
 # Client (Next.js) Structure with App Router
 client:
-  src:
-    app:                     # App Router Directory
-      (auth):               # Auth Route Group
-        login/              # Login Route
-        register/          # Register Route
-      api/                 # API Routes
-      items/              # Items Feature Routes
-        [id]/             # Dynamic Item Route
-        create/           # Create Item Route
-        page.tsx         # Items List Page
-      layout.tsx         # Root Layout
-      page.tsx          # Home Page
-    components:
-      ui/               # Reusable UI Components
-        button/
-        form/
-        input/
-      features/        # Feature-specific Components
-        items/
-        auth/
-    graphql:
-      mutations/       # GraphQL Mutation Definitions
-      queries/        # GraphQL Query Definitions
-    lib:             # Utility Functions and Configurations
-      graphql/       # GraphQL Client Setup
-      utils/         # Helper Functions
-    styles:
-      globals.css    # Global Styles
+  app:               # App Router Directory
+    items/           # Items Page
+  components
+  graphql:
+    mutations/       # GraphQL Mutation Definitions
+    queries/         # GraphQL Query Definitions
+    types/           # GraphQL Type Definitions
   Dockerfile
   package.json
 
