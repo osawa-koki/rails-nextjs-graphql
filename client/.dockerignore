@@ -1,10 +1,6 @@
-/.devcontainer/
-/.github/
-/.next/
 /.vscode/
 /build/
 /docs/
-/node_modules/
 /tests/
 /.dockerignore
 /.editorconfig
