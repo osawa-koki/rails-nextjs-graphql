@@ -1,6 +1,6 @@
 # rails-nextjs-graphql
 
-Ruby on RailsとNext.jsを使用して、GraphQLを介してデータを取得するアプリケーションです！  
+🫗🫗🫗 Ruby on RailsとNext.jsを使用して、GraphQLを介してデータを取得するアプリケーションです！  
 
 ## 実行方法
 

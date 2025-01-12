@@ -8,6 +8,16 @@ services:
     volumes:
       - ./server/:/app/
       - bundle:/usr/local/bundle
+  client:
+    build:
+      context: ./client/
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./client/:/app/
+      - node_modules:/app/node_modules
 
 volumes:
   bundle:
+  node_modules:
