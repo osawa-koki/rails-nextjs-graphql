@@ -6,5 +6,7 @@
 
 ```bash
 docker compose up -d
+docker compose run --rm server bundle install
+docker compose run --rm client yarn install
 docker compose run --rm server bundle exec rails db:migrate
 ```
