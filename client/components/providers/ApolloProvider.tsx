@@ -3,8 +3,10 @@
 import { PropsWithChildren } from 'react'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 
+import setting from '@/setting'
+
 const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
+  uri: `${setting.apiPath}/graphql`,
   cache: new InMemoryCache(),
 })
 
