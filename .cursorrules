@@ -1,0 +1,80 @@
+# This is a learning repository implementing a full-stack application with Rails (API) and Next.js (frontend)
+# using GraphQL for communication between client and server.
+
+# Project Structure
+root_dir:
+  - server/      # Rails API backend
+  - client/      # Next.js frontend
+  - compose.yaml # Docker Compose configuration
+
+# Server (Rails) Structure
+server:
+  app:
+    controllers:
+      - api/     # API controllers if needed
+    graphql:
+      mutations:
+        - base_mutation.rb    # Base class for mutations
+        - create_*.rb         # Create mutations
+        - update_*.rb         # Update mutations
+        - delete_*.rb         # Delete mutations
+      resolvers:
+        - base_resolver.rb    # Base class for resolvers
+        - *_resolver.rb       # Query resolvers
+      types:
+        - base_*.rb          # Base GraphQL types
+        - *_type.rb          # GraphQL types
+    models:
+      - *.rb                 # ActiveRecord models
+  config:
+    - database.yml
+    - routes.rb
+  db:
+    - migrations/
+    - schema.rb
+  Dockerfile
+  Gemfile
+
+# Client (Next.js) Structure with App Router
+client:
+  src:
+    app:                     # App Router Directory
+      (auth):               # Auth Route Group
+        login/              # Login Route
+        register/          # Register Route
+      api/                 # API Routes
+      items/              # Items Feature Routes
+        [id]/             # Dynamic Item Route
+        create/           # Create Item Route
+        page.tsx         # Items List Page
+      layout.tsx         # Root Layout
+      page.tsx          # Home Page
+    components:
+      ui/               # Reusable UI Components
+        button/
+        form/
+        input/
+      features/        # Feature-specific Components
+        items/
+        auth/
+    graphql:
+      mutations/       # GraphQL Mutation Definitions
+      queries/        # GraphQL Query Definitions
+    lib:             # Utility Functions and Configurations
+      graphql/       # GraphQL Client Setup
+      utils/         # Helper Functions
+    styles:
+      globals.css    # Global Styles
+  Dockerfile
+  package.json
+
+# Development Rules
+rules:
+  - Use GraphQL for all API communication
+  - Keep resolvers and mutations in separate files
+  - Follow Rails/Next.js conventions
+  - Write clear documentation
+  - Use TypeScript for frontend
+  - Implement proper error handling
+  - Follow consistent code formatting
+  - Follow Next.js App Router conventions
