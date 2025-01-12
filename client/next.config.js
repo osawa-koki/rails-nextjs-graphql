@@ -17,5 +17,9 @@ export default {
   trailingSlash: true,
   images: {
     unoptimized: true
+  },
+  transpilePackages: ['@apollo/client'],
+  experimental: {
+    esmExternals: true
   }
 }

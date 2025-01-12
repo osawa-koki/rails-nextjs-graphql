@@ -12,6 +12,7 @@ import '@/styles/menu.scss'
 
 import setting from '@/setting'
 import Menu from '@/components/Menu'
+import ApolloClientProvider from '@/components/providers/ApolloProvider'
 
 Modal.setAppElement('#Wrapper');
 
@@ -43,7 +44,9 @@ export default function RootLayout ({
       </head>
       <body>
         <div id="Wrapper">
-          <main>{children}</main>
+          <ApolloClientProvider>
+            <main>{children}</main>
+          </ApolloClientProvider>
           <Menu currentPage={currentPage} />
           <ToastContainer />
         </div>
