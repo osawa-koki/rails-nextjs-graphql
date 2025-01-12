@@ -5,14 +5,18 @@ import React, { useMemo, useState } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import { Alert, Button, Form, Spinner, Table } from 'react-bootstrap'
 import { toast } from 'react-toastify'
+import { FaTrashAlt } from 'react-icons/fa'
 
 import { GET_ITEMS } from '@/graphql/queries/itemQueries'
-import { CREATE_ITEM } from '@/graphql/mutations/itemMutations'
+import { CREATE_ITEM, DELETE_ITEM } from '@/graphql/mutations/itemMutations'
 import type { GetItemsQuery } from '@/graphql/types/itemTypes'
 
 export default function ItemsPage(): React.JSX.Element {
   const { data: queriedItems, loading: querying, error } = useQuery<GetItemsQuery>(GET_ITEMS)
   const [createItem, { loading: creating }] = useMutation(CREATE_ITEM, {
+    refetchQueries: [{ query: GET_ITEMS }]
+  })
+  const [deleteItem, { loading: deleting }] = useMutation(DELETE_ITEM, {
     refetchQueries: [{ query: GET_ITEMS }]
   })
 
@@ -39,8 +43,22 @@ export default function ItemsPage(): React.JSX.Element {
       })
   }
 
+  function handleDeleteItem(id: string): void {
+    if (!window.confirm('Are you sure you want to delete this item?')) return
+    deleteItem({
+      variables: { id }
+    })
+      .then(() => {
+        toast.success('Item deleted successfully')
+      })
+      .catch((error) => {
+        toast.error(`Error deleting item: ${error.message}`)
+      })
+  }
+
   if (querying) return <Spinner animation='border' />
   if (creating) return <Spinner animation='grow' />
+  if (deleting) return <Spinner animation='grow' />
   if (error != null) return <Alert variant='danger'>{error.message}</Alert>
   if (queriedItems == null) return <Alert variant='danger'>No items found</Alert>
 
@@ -70,6 +88,7 @@ export default function ItemsPage(): React.JSX.Element {
             <th>ID</th>
             <th>Name</th>
             <th>Price</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -78,6 +97,9 @@ export default function ItemsPage(): React.JSX.Element {
               <td>{item.id}</td>
               <td>{item.name}</td>
               <td>{item.price}</td>
+              <td>
+                <FaTrashAlt className='text-danger' role='button' onClick={() => handleDeleteItem(item.id)} />
+              </td>
             </tr>
           ))}
         </tbody>
