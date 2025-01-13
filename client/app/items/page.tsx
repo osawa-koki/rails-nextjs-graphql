@@ -11,6 +11,8 @@ import { GET_ITEMS } from '@/graphql/queries/itemQueries'
 import { CREATE_ITEM, DELETE_ITEM } from '@/graphql/mutations/itemMutations'
 import type { GetItemsQuery } from '@/graphql/types/itemTypes'
 
+import ItemModal from './_modal'
+
 export default function ItemsPage(): React.JSX.Element {
   const { data: queriedItems, loading: querying, error } = useQuery<GetItemsQuery>(GET_ITEMS)
   const [createItem, { loading: creating }] = useMutation(CREATE_ITEM, {
@@ -20,12 +22,21 @@ export default function ItemsPage(): React.JSX.Element {
     refetchQueries: [{ query: GET_ITEMS }]
   })
 
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null)
+
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState<number>(0)
   const canCreate = useMemo(() => {
     return name.length > 0 && description.length >= 0 && price >= 0
   }, [name, description, price])
+
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+
+  function closeModal(): void {
+    setModalIsOpen(false)
+    setSelectedItemId(null)
+  }
 
   function handleCreateItem(): void {
     createItem({
@@ -62,6 +73,10 @@ export default function ItemsPage(): React.JSX.Element {
   if (error != null) return <Alert variant='danger'>{error.message}</Alert>
   if (queriedItems == null) return <Alert variant='danger'>No items found</Alert>
 
+  if (selectedItemId != null) {
+    return <ItemModal itemId={selectedItemId} modalIsOpen={modalIsOpen} closeModal={closeModal} />
+  }
+
   return (
     <div id='Items'>
       <h1>Items</h1>
@@ -94,7 +109,15 @@ export default function ItemsPage(): React.JSX.Element {
         <tbody>
           {queriedItems.items.map((item) => (
             <tr key={item.id}>
-              <td>{item.id}</td>
+              <td>
+                <a
+                  onClick={() => { setSelectedItemId(item.id); setModalIsOpen(true) }}
+                  className="text-primary"
+                  style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                >
+                  {item.id}
+                </a>
+              </td>
               <td>{item.name}</td>
               <td>{item.price}</td>
               <td>
