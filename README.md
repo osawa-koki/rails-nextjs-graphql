@@ -12,3 +12,10 @@ docker compose run --rm server bundle exec rails db:migrate
 
 docker compose up -d
 ```
+
+## メイン実行用
+
+```bash
+docker build -t rails-nextjs-graphql .
+docker run --rm -d -p 8888:3000 --name rails-nextjs-graphql rails-nextjs-graphql
+```
