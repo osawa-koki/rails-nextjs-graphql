@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'
 
 export const CREATE_ITEM = gql`
   mutation CreateItem($name: String!, $description: String!, $price: Float!) {
@@ -12,7 +12,7 @@ export const CREATE_ITEM = gql`
       errors
     }
   }
-`;
+`
 
 export const UPDATE_ITEM = gql`
   mutation UpdateItem($id: ID!, $name: String!, $description: String!, $price: Float!) {
@@ -26,7 +26,7 @@ export const UPDATE_ITEM = gql`
       errors
     }
   }
-`;
+`
 
 export const DELETE_ITEM = gql`
   mutation DeleteItem($id: ID!) {
@@ -37,4 +37,4 @@ export const DELETE_ITEM = gql`
       errors
     }
   }
-`;
+`

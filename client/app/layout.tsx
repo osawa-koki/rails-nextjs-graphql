@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
-import Modal from 'react-modal';
+import Modal from 'react-modal'
 
 import { ToastContainer } from 'react-toastify'
 
@@ -14,7 +14,7 @@ import setting from '@/setting'
 import Menu from '@/components/Menu'
 import ApolloClientProvider from '@/components/providers/ApolloProvider'
 
-Modal.setAppElement('#Wrapper');
+Modal.setAppElement('#Wrapper')
 
 export default function RootLayout ({
   children

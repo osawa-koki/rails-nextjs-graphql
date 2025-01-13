@@ -13,7 +13,7 @@ import type { GetItemsQuery } from '@/graphql/types/itemTypes'
 
 import ItemModal from './_modal'
 
-export default function ItemsPage(): React.JSX.Element {
+export default function ItemsPage (): React.JSX.Element {
   const { data: queriedItems, loading: querying, error } = useQuery<GetItemsQuery>(GET_ITEMS)
   const [createItem, { loading: creating }] = useMutation(CREATE_ITEM, {
     refetchQueries: [{ query: GET_ITEMS }]
@@ -31,11 +31,11 @@ export default function ItemsPage(): React.JSX.Element {
     return name.length > 0 && description.length >= 0 && price >= 0
   }, [name, description, price])
 
-  function closeModal(): void {
+  function closeModal (): void {
     setSelectedItemId(null)
   }
 
-  function handleCreateItem(): void {
+  function handleCreateItem (): void {
     createItem({
       variables: {
         name,
@@ -46,12 +46,12 @@ export default function ItemsPage(): React.JSX.Element {
       .then(() => {
         toast.success('Item created successfully')
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         toast.error(`Error creating item: ${error.message}`)
       })
   }
 
-  function handleDeleteItem(id: string): void {
+  function handleDeleteItem (id: string): void {
     if (!window.confirm('Are you sure you want to delete this item?')) return
     deleteItem({
       variables: { id }
@@ -59,7 +59,7 @@ export default function ItemsPage(): React.JSX.Element {
       .then(() => {
         toast.success('Item deleted successfully')
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         toast.error(`Error deleting item: ${error.message}`)
       })
   }
@@ -78,15 +78,15 @@ export default function ItemsPage(): React.JSX.Element {
       <Form>
         <Form.Group>
           <Form.Label>Name</Form.Label>
-          <Form.Control type='text' value={name} onChange={(e) => setName(e.target.value)} />
+          <Form.Control type='text' value={name} onChange={(e) => { setName(e.target.value) }} />
         </Form.Group>
         <Form.Group>
           <Form.Label>Description</Form.Label>
-          <Form.Control type='text' value={description} onChange={(e) => setDescription(e.target.value)} />
+          <Form.Control type='text' value={description} onChange={(e) => { setDescription(e.target.value) }} />
         </Form.Group>
         <Form.Group>
           <Form.Label>Price</Form.Label>
-          <Form.Control type='number' value={price} onChange={(e) => setPrice(Number(e.target.value))} />
+          <Form.Control type='number' value={price} onChange={(e) => { setPrice(Number(e.target.value)) }} />
         </Form.Group>
         <Button type='button' className='mt-3' onClick={handleCreateItem} disabled={!canCreate}>Create</Button>
       </Form>
@@ -115,7 +115,7 @@ export default function ItemsPage(): React.JSX.Element {
               <td>{item.name}</td>
               <td>{item.price}</td>
               <td>
-                <FaTrashAlt className='text-danger' role='button' onClick={() => handleDeleteItem(item.id)} />
+                <FaTrashAlt className='text-danger' role='button' onClick={() => { handleDeleteItem(item.id) }} />
               </td>
             </tr>
           ))}
