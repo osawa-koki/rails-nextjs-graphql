@@ -31,10 +31,7 @@ export default function ItemsPage(): React.JSX.Element {
     return name.length > 0 && description.length >= 0 && price >= 0
   }, [name, description, price])
 
-  const [modalIsOpen, setModalIsOpen] = useState(false)
-
   function closeModal(): void {
-    setModalIsOpen(false)
     setSelectedItemId(null)
   }
 
@@ -73,12 +70,9 @@ export default function ItemsPage(): React.JSX.Element {
   if (error != null) return <Alert variant='danger'>{error.message}</Alert>
   if (queriedItems == null) return <Alert variant='danger'>No items found</Alert>
 
-  if (selectedItemId != null) {
-    return <ItemModal itemId={selectedItemId} modalIsOpen={modalIsOpen} closeModal={closeModal} />
-  }
-
   return (
     <div id='Items'>
+      <ItemModal itemId={selectedItemId} closeModal={closeModal} />
       <h1>Items</h1>
       <hr />
       <Form>
@@ -111,7 +105,7 @@ export default function ItemsPage(): React.JSX.Element {
             <tr key={item.id}>
               <td>
                 <a
-                  onClick={() => { setSelectedItemId(item.id); setModalIsOpen(true) }}
+                  onClick={() => { setSelectedItemId(item.id) }}
                   className="text-primary"
                   style={{ cursor: 'pointer', textDecoration: 'underline' }}
                 >
