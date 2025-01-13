@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'
 
 export const GET_ITEMS = gql`
   query GetItems {
@@ -8,7 +8,7 @@ export const GET_ITEMS = gql`
       price
     }
   }
-`;
+`
 
 export const GET_ITEM = gql`
   query GetItem($id: ID!) {
@@ -21,4 +21,4 @@ export const GET_ITEM = gql`
       createdAt
     }
   }
-`;
+`

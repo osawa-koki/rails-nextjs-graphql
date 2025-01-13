@@ -9,7 +9,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import Modal from '@/components/Modal'
 
 import { GET_ITEM } from '@/graphql/queries/itemQueries'
-import { GetItemQuery } from '@/graphql/types/itemTypes'
+import { type GetItemQuery } from '@/graphql/types/itemTypes'
 import { UPDATE_ITEM } from '@/graphql/mutations/itemMutations'
 
 interface ItemModalProps {
@@ -32,25 +32,25 @@ export default function ItemModal (props: ItemModalProps): React.JSX.Element {
   const [description, setDescription] = useState('')
   const [price, setPrice] = useState(0)
 
-  function resetForm(): void {
+  function resetForm (): void {
     setName(queriedItem?.item.name ?? '')
     setDescription(queriedItem?.item.description ?? '')
     setPrice(queriedItem?.item.price ?? 0)
   }
 
-  function updateItemForm(): void {
+  function updateItemForm (): void {
     updateItem({
       variables: {
         id: itemId,
-        name: name,
-        description: description,
-        price: price
+        name,
+        description,
+        price
       }
     })
       .then(() => {
         toast.success('Item updated successfully')
       })
-      .catch((error) => {
+      .catch((error: Error) => {
         toast.error(`Error: ${error.message}`)
       })
   }
@@ -65,7 +65,9 @@ export default function ItemModal (props: ItemModalProps): React.JSX.Element {
   if (itemId == null) return <></>
 
   if (querying) return <Spinner animation='border' />
+  if (updating) return <Spinner animation='border' />
   if (queryError != null) return <Alert variant='danger'>{queryError.message}</Alert>
+  if (updateError != null) return <Alert variant='danger'>{updateError.message}</Alert>
   if (queriedItem == null) return <Alert variant='danger'>No item found</Alert>
 
   return (
@@ -79,7 +81,7 @@ export default function ItemModal (props: ItemModalProps): React.JSX.Element {
                 <Form.Control
                   type="text"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => { setName(e.target.value) }}
                 />
               </td>
             </tr>
@@ -89,7 +91,7 @@ export default function ItemModal (props: ItemModalProps): React.JSX.Element {
                 <Form.Control
                   as="textarea"
                   value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) => { setDescription(e.target.value) }}
                 />
               </td>
             </tr>
@@ -99,7 +101,7 @@ export default function ItemModal (props: ItemModalProps): React.JSX.Element {
                 <Form.Control
                   type="number"
                   value={price}
-                  onChange={(e) => setPrice(Number(e.target.value))}
+                  onChange={(e) => { setPrice(Number(e.target.value)) }}
                 />
               </td>
             </tr>
