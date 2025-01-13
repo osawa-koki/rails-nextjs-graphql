@@ -14,6 +14,20 @@ export const CREATE_ITEM = gql`
   }
 `;
 
+export const UPDATE_ITEM = gql`
+  mutation UpdateItem($id: ID!, $name: String!, $description: String!, $price: Float!) {
+    updateItem(input: { id: $id, name: $name, description: $description, price: $price }) {
+      item {
+        id
+        name
+        description
+        price
+      }
+      errors
+    }
+  }
+`;
+
 export const DELETE_ITEM = gql`
   mutation DeleteItem($id: ID!) {
     deleteItem(input: { id: $id }) {

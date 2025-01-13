@@ -2,25 +2,30 @@
 
 import React, { useEffect, useState } from 'react'
 import { Alert, Button, Form, Spinner, Table } from 'react-bootstrap'
+import { toast } from 'react-toastify'
 
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 
 import Modal from '@/components/Modal'
 
 import { GET_ITEM } from '@/graphql/queries/itemQueries'
 import { GetItemQuery } from '@/graphql/types/itemTypes'
+import { UPDATE_ITEM } from '@/graphql/mutations/itemMutations'
 
 interface ItemModalProps {
-  itemId: string
-  modalIsOpen: boolean
+  itemId: string | null
   closeModal: () => void
 }
 
 export default function ItemModal (props: ItemModalProps): React.JSX.Element {
-  const { itemId, modalIsOpen, closeModal } = props
+  const { itemId, closeModal } = props
 
-  const { data: queriedItem, loading: querying, error } = useQuery<GetItemQuery>(GET_ITEM, {
-    variables: { id: itemId }
+  const { data: queriedItem, loading: querying, error: queryError } = useQuery<GetItemQuery>(GET_ITEM, {
+    variables: { id: itemId },
+    skip: itemId == null
+  })
+  const [updateItem, { loading: updating, error: updateError }] = useMutation(UPDATE_ITEM, {
+    refetchQueries: itemId ? [{ query: GET_ITEM, variables: { id: itemId } }] : []
   })
 
   const [name, setName] = useState('')
@@ -33,6 +38,23 @@ export default function ItemModal (props: ItemModalProps): React.JSX.Element {
     setPrice(queriedItem?.item.price ?? 0)
   }
 
+  function updateItemForm(): void {
+    updateItem({
+      variables: {
+        id: itemId,
+        name: name,
+        description: description,
+        price: price
+      }
+    })
+      .then(() => {
+        toast.success('Item updated successfully')
+      })
+      .catch((error) => {
+        toast.error(`Error: ${error.message}`)
+      })
+  }
+
   useEffect(() => {
     if (queriedItem == null) return
     setName(queriedItem.item.name)
@@ -40,13 +62,15 @@ export default function ItemModal (props: ItemModalProps): React.JSX.Element {
     setPrice(queriedItem.item.price)
   }, [queriedItem])
 
+  if (itemId == null) return <></>
+
   if (querying) return <Spinner animation='border' />
-  if (error != null) return <Alert variant='danger'>{error.message}</Alert>
+  if (queryError != null) return <Alert variant='danger'>{queryError.message}</Alert>
   if (queriedItem == null) return <Alert variant='danger'>No item found</Alert>
 
   return (
     <>
-      <Modal modalIsOpen={modalIsOpen} closeModal={closeModal}>
+      <Modal modalIsOpen={itemId != null} closeModal={closeModal}>
         <Table>
           <tbody>
             <tr>
@@ -89,7 +113,7 @@ export default function ItemModal (props: ItemModalProps): React.JSX.Element {
             </tr>
           </tbody>
         </Table>
-        <Button className="mt-3 me-3">更新</Button>
+        <Button className="mt-3 me-3" onClick={updateItemForm}>更新</Button>
         <Button className="mt-3 me-3" onClick={resetForm}>リセット</Button>
       </Modal>
     </>
