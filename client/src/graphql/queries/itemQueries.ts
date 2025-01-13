@@ -5,6 +5,7 @@ export const GET_ITEMS = gql`
     items {
       id
       name
+      description
       price
     }
   }
@@ -15,10 +16,8 @@ export const GET_ITEM = gql`
     item(id: $id) {
       id
       name
-      price
       description
-      updatedAt
-      createdAt
+      price
     }
   }
 `;
