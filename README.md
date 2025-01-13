@@ -2,6 +2,8 @@
 
 🫗🫗🫗 Ruby on RailsとNext.jsを使用して、GraphQLを介してデータを取得するアプリケーションです！  
 
+![成果物](./fruit.gif)  
+
 ## 実行方法
 
 ```bash
