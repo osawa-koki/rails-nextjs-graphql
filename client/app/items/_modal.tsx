@@ -25,7 +25,7 @@ export default function ItemModal (props: ItemModalProps): React.JSX.Element {
     skip: itemId == null
   })
   const [updateItem, { loading: updating, error: updateError }] = useMutation(UPDATE_ITEM, {
-    refetchQueries: itemId ? [{ query: GET_ITEM, variables: { id: itemId } }] : []
+    refetchQueries: itemId != null ? [{ query: GET_ITEM, variables: { id: itemId } }] : []
   })
 
   const [name, setName] = useState('')
